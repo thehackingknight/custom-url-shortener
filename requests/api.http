@@ -1,6 +1,0 @@
-POST http://localhost:5000/api/url/shorten
-Content-Type: application/json
-
-{
-    "longUrl": "https://cloud.mongodb.com/v2/5fa5edc79eb40748fa3f9666#clusters"
-}
