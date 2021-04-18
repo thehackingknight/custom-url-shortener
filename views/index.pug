@@ -3,3 +3,8 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
+  form#shorten-form
+    .input-group
+        input.form-control(name="long-url")
+    .input-group
+        button.btn.btn-sm.btn-primary#shorten-btn(type="submit") Shorten
