@@ -4,14 +4,15 @@ const router = express.Router();
 const validUrl = require('valid-url'),
     shortId = require('shortid'),
     config = require('config'),
-    Url = require('../models/url')
+    Url = require('../models/url'),
+    baseUrl = config.get('baseUrl');
+
 
 // @route POST /api/url/shorten
 // @desc    Create short URL
 
 router.post('/', async(req, res) => {
     const { longUrl } = req.body;
-    const baseUrl = config.get('baseUrl');
 
     if (!validUrl.isUri(baseUrl)) {
         return res.status(401).json('Invalid base Url');
@@ -26,22 +27,21 @@ router.post('/', async(req, res) => {
 
         try {
             let url = await Url.findOne({ longUrl });
-            if (url) {
-                res.json(url);
-            } else {
-                const shortUrl = baseUrl + '/' + urlCode;
-                url = new Url({
+
+            const shortUrl = baseUrl + '/' + urlCode;
+            url = new Url({
                     longUrl,
                     shortUrl,
                     urlCode,
                     date: new Date()
+                }
 
-                })
+            )
 
-                await url.save();
+            await url.save();
 
-                res.json(url);
-            }
+            res.json(url);
+
 
 
         } catch (e) {
